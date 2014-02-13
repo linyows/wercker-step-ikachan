@@ -11,7 +11,7 @@ magic_number = Digest::MD5.hexdigest(repo).gsub(/[^0-9]/, '').split('').last.to_
 number = "%02d" % (5..14).to_a[magic_number]
 
 colored_message = message.
-  gsub(/(^.*):/, "\x03#{number}\\1\x0f:").
+  gsub(/(^[\w\-\.]+):/, "\x03#{number}\\1\x0f:").
   gsub(/(build)/, "\x02\\1\x0f").
   gsub(/(deploy)/, "\x0302\\1\x0f").
   gsub(/(failed)/, "\x0304\\1\x0f").
