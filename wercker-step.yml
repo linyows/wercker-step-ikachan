@@ -1,0 +1,24 @@
+name: ikachan
+version: 0.0.1
+description: Send a message to an IRC channel by ikachan
+keywords:
+  - notification
+  - irc
+  - ikachan
+properties:
+  server:
+    type: string
+    required: true
+  port:
+    type: number
+    required: true
+  channel:
+    type: string
+    required: true
+  failed-message:
+    type: string
+  passed-message:
+    type: string
+  on:
+    type: string
+    default: always
