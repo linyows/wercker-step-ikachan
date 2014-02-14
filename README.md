@@ -1,10 +1,10 @@
 Wercker Step Ikachan
 ====================
 
+Send a message to an IRC channel by ikachan.
+
 [![wercker status](https://app.wercker.com/status/f9e24f552ca60191bf2b2309ee701ab7/m/ "wercker status")][wercker]
 [wercker]: https://app.wercker.com/project/bykey/f9e24f552ca60191bf2b2309ee701ab7
-
-Send a message to an IRC channel by ikachan.
 
 Options
 -------
