@@ -49,5 +49,5 @@ ruby "$WERCKER_STEP_ROOT/main.rb" \
   -u "$WERCKER_STARTED_BY" \
   -t "$WERCKER_JOB_TARGET" \
   -l "$WERCKER_JOB_URL" \
-  -t "$WERCKER_JOB_TYPE" \
+  -j "$WERCKER_JOB_TYPE" \
   -s "$WERCKER_RESULT"
