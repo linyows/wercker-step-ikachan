@@ -111,19 +111,19 @@ module Ikachan
       job = if @job_type == 'deploy'
           "#{'deploy'.bold} to #{@job_target}"
         else
-          "#{'build'.bold} of #{@job_target}"
+          "#{'build'.bold} on #{@job_target}"
         end
 
       status = if @result == 'passed'
-          @result.to_s.colorize('green')
+          'Successful'.to_s.colorize('green')
         else
-          @result.to_s.colorize('red')
+          'Failed'.to_s.colorize('red')
         end
 
       url = "- #{@job_url.shorten}".colorize('blue')
 
       @built_message = if @custom_message == ''
-          "#{@repo.to_s.colorize}: #{job} by #{@user} #{status} #{url}"
+          "#{@repo.to_s.colorize}: #{status} #{job} by #{@user} #{url}"
         else
           @custom_message
         end
