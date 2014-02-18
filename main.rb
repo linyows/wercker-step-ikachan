@@ -5,6 +5,25 @@ require 'net/https'
 require 'uri'
 require 'digest/md5'
 require 'json'
+require 'optparse'
+
+argv = {}
+OptionParser.new do |parser|
+  parser.instance_eval do
+    separator 'arguments:'
+    on('-h VALUE', '--host', 'ikachan host') { |v| argv[:host] = v }
+    on('-p VALUE', '--port', 'ikachan port') { |v| argv[:port] = v }
+    on('-c VALUE', '--channel', 'irc channel') { |v| argv[:channel] = v }
+    on('-r VALUE', '--repository', 'project repository name') { |v| argv[:repo] = v }
+    on('-u VALUE', '--username', 'username') { |v| argv[:user] = v }
+    on('-l VALUE', '--link', 'job url') { |v| argv[:job_url] = v }
+    on('-t VALUE', '--target', 'job target') { |v| argv[:job_target] = v }
+    on('-j VALUE', '--type', 'job type') { |v| argv[:job_type] = v }
+    on('-s VALUE', '--status', 'job status') { |v| argv[:result] = v }
+    on('-m [VALUE]', '--custom_message', 'custom message') { |v| argv[:custom_message] = v }
+    parse!(ARGV)
+  end
+end
 
 class String
   IRC_TEXT_COLOR  = "\x03"
@@ -68,29 +87,8 @@ end
 
 module Ikachan
   class << self
-    def keys
-      %w(
-        host
-        port
-        channel
-        custom_message
-        repo
-        user
-        job_target
-        job_url
-        job_type
-        result
-      )
-    end
-
     def params
       { 'channel' => "##{@channel}" }
-    end
-
-    def sets(arr)
-      arr.each_with_index do |p, i|
-        instance_variable_set(:"@#{self.keys[i]}", p)
-      end
     end
 
     def http
@@ -117,22 +115,22 @@ module Ikachan
         end
 
       status = if @result == 'passed'
-          @result.colorize('green')
+          @result.to_s.colorize('green')
         else
-          @result.colorize('red')
+          @result.to_s.colorize('red')
         end
 
       url = "- #{@job_url.shorten}".colorize('blue')
 
       @built_message = if @custom_message == ''
-          "#{@repo.colorize}: #{job} by #{@user} #{status} #{url}"
+          "#{@repo.to_s.colorize}: #{job} by #{@user} #{status} #{url}"
         else
           @custom_message
         end
     end
 
-    def exec(arr)
-      self.sets(arr)
+    def exec(argv)
+      argv.each { |k, v| instance_variable_set(:"@#{k}", v) }
       self.build_message
       self.join
       self.notify
@@ -140,4 +138,4 @@ module Ikachan
   end
 end
 
-Ikachan.exec ARGV
+Ikachan.exec argv
