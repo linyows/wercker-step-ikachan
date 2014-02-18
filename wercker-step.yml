@@ -1,5 +1,5 @@
 name: ikachan
-version: 0.2.0
+version: 0.2.1
 description: Send a message to an IRC channel by ikachan
 keywords:
   - notification
